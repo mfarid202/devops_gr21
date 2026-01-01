@@ -1,225 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Mini Jumia Clone</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Latest Movies in Cinemas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-        }
+  <style>
+    :root {
+      --bg: #0e1117;
+      --card: #161b22;
+      --accent: #e50914;
+      --text: #f0f6fc;
+      --muted: #9da5b4;
+    }
 
-        /* Header */
-        header {
-            background: #f68b1e;
-            color: white;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
 
-        .search-box input {
-            padding: 8px;
-            width: 250px;
-            border: none;
-            border-radius: 4px;
-        }
+    header {
+      padding: 1.5rem 2rem;
+      background: linear-gradient(135deg, #1f2937, #020617);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
 
-        /* Categories */
-        nav {
-            background: white;
-            padding: 10px;
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-        }
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
 
-        nav a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            white-space: nowrap;
-        }
+    select {
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      border: none;
+      background: var(--card);
+      color: var(--text);
+    }
 
-        /* Products */
-        .container {
-            padding: 20px;
-        }
+    main {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
 
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-        }
+    .movie {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease;
+    }
 
-        .product {
-            background: white;
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+    .movie:hover {
+      transform: translateY(-6px);
+    }
 
-        .product img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
+    .poster {
+      height: 360px;
+      background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--muted);
+    }
 
-        .product h3 {
-            font-size: 16px;
-            margin: 10px 0;
-        }
+    .info {
+      padding: 1.2rem;
+    }
 
-        .price {
-            color: #f68b1e;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    .title {
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+    }
 
-        .product button {
-            background: #f68b1e;
-            border: none;
-            color: white;
-            padding: 10px;
-            width: 100%;
-            cursor: pointer;
-            border-radius: 4px;
-        }
+    .meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
 
-        .product button:hover {
-            background: #d97706;
-        }
+    .rating {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
 
-        /* Footer */
-        footer {
-            background: #222;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 30px;
-        }
-    </style>
+    button {
+      width: 100%;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 10px;
+      background: var(--accent);
+      color: white;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
 </head>
 <body>
 
 <header>
-    <h1>JUMIA</h1>
-    <div class="search-box">
-        <input type="text" placeholder="Search products...">
-    </div>
-    <div>🛒 Cart</div>
+  <h1>🎬 Latest Movies in Cinemas</h1>
+  <select id="genreFilter" onchange="filterMovies()">
+    <option value="all">All Genres</option>
+    <option value="action">Action</option>
+    <option value="drama">Drama</option>
+    <option value="scifi">Sci-Fi</option>
+    <option value="animation">Animation</option>
+  </select>
 </header>
 
-<nav>
-    <a href="#">Phones</a>
-    <a href="#">Fashion</a>
-    <a href="#">Electronics</a>
-    <a href="#">Home</a>
-    <a href="#">Beauty</a>
-    <a href="#">Groceries</a>
-</nav>
+<main id="movies">
 
-<div class="container">
-    <h2>Top Deals</h2>
-
-    <div class="products">
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Phone">
-            <h3>Smartphone X</h3>
-            <div class="price">$199</div>
-            <button>Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Shoes">
-            <h3>Running Shoes</h3>
-            <div class="price">$49</div>
-            <button>Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="TV">
-            <h3>LED TV 32"</h3>
-            <div class="price">$179</div>
-            <button>Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Headphones">
-            <h3>Wireless Headphones</h3>
-            <div class="price">$29</div>
-            <button>Add to Cart</button>
-        </div>
-         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Phone">
-            <h3>Smartphone X</h3>
-            <div class="price">$199</div>
-            <button>Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Shoes">
-            <h3>Running Shoes</h3>
-            <div class="price">$49</div>
-            <button>Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="TV">
-            <h3>LED TV 32"</h3>
-            <div class="price">$179</div>
-            <button>Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Headphones">
-            <h3>Wireless Headphones</h3>
-            <div class="price">$29</div>
-            <button>Add to Cart</button>
-        </div>
-         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Phone">
-            <h3>Smartphone X</h3>
-            <div class="price">$199</div>
-            <button>Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Shoes">
-            <h3>Running Shoes</h3>
-            <div class="price">$49</div>
-            <button>Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="TV">
-            <h3>LED TV 32"</h3>
-            <div class="price">$179</div>
-            <button>Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Headphones">
-            <h3>Wireless Headphones</h3>
-            <div class="price">$29</div>
-            <button>Add to Cart</button>
-        </div>
+  <div class="movie" data-genre="action">
+    <div class="poster">Poster</div>
+    <div class="info">
+      <div class="title">Edge of Tomorrow 2</div>
+      <div class="meta">Action • 2026</div>
+      <div class="rating">⭐ 8.1 / 10</div>
+      <button onclick="trailer('Edge of Tomorrow 2')">Watch Trailer</button>
     </div>
-</div>
+  </div>
 
-<footer>
-    © 2025 Mini Jumia Clone — For Learning Only
-</footer>
-
-</body>
-</html>
+  <div class="movie" data-genre="scifi">
+    <div class="poster">Poster</div>
+    <div class="info">
+      <div class="title">Dune: Messiah</div>
+      <div class="meta">Sci-Fi • 2026</div>
+      <div class="rating">⭐ 8.7 / 10</div>
+      <button onclick="trailer('Dune Messiah')">W
