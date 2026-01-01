@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Latest Movies in Cinemas</title>
+  <title>Latest Tech News</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root {
-      --bg: #0e1117;
-      --card: #161b22;
-      --accent: #e50914;
-      --text: #f0f6fc;
-      --muted: #9da5b4;
+      --bg: #0b0f14;
+      --card: #121821;
+      --accent: #3b82f6;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
     }
 
     * {
@@ -27,12 +28,13 @@
 
     header {
       padding: 1.5rem 2rem;
-      background: linear-gradient(135deg, #1f2937, #020617);
+      background: linear-gradient(135deg, #0f172a, #020617);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
       gap: 1rem;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
     }
 
     header h1 {
@@ -40,10 +42,15 @@
       font-size: 1.8rem;
     }
 
-    select {
-      padding: 0.5rem 0.8rem;
+    .controls {
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    input, select {
+      padding: 0.5rem 0.7rem;
       border-radius: 8px;
-      border: none;
+      border: 1px solid var(--border);
       background: var(--card);
       color: var(--text);
     }
@@ -51,97 +58,160 @@
     main {
       padding: 2rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 1.5rem;
     }
 
-    .movie {
+    .news {
       background: var(--card);
       border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      padding: 1.4rem;
+      border: 1px solid var(--border);
       transition: transform 0.2s ease;
     }
 
-    .movie:hover {
-      transform: translateY(-6px);
+    .news:hover {
+      transform: translateY(-5px);
     }
 
-    .poster {
-      height: 360px;
-      background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      color: var(--muted);
-    }
-
-    .info {
-      padding: 1.2rem;
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      background: rgba(59,130,246,0.15);
+      color: var(--accent);
+      margin-bottom: 0.5rem;
     }
 
     .title {
       font-size: 1.1rem;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
     }
 
-    .meta {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 0.8rem;
-    }
-
-    .rating {
+    .excerpt {
       font-size: 0.9rem;
+      color: var(--muted);
       margin-bottom: 1rem;
     }
 
-    button {
-      width: 100%;
-      padding: 0.6rem;
-      border: none;
-      border-radius: 10px;
-      background: var(--accent);
-      color: white;
-      font-size: 0.95rem;
-      cursor: pointer;
+    .meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    button:hover {
-      opacity: 0.9;
+    .meta span {
+      white-space: nowrap;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>🎬 Latest Movies in Cinemas</h1>
-  <select id="genreFilter" onchange="filterMovies()">
-    <option value="all">All Genres</option>
-    <option value="action">Action</option>
-    <option value="drama">Drama</option>
-    <option value="scifi">Sci-Fi</option>
-    <option value="animation">Animation</option>
-  </select>
+  <h1>📰 Latest Tech News</h1>
+
+  <div class="controls">
+    <input
+      type="text"
+      id="search"
+      placeholder="Search news..."
+      oninput="filterNews()"
+    />
+
+    <select id="category" onchange="filterNews()">
+      <option value="all">All</option>
+      <option value="ai">AI</option>
+      <option value="cloud">Cloud</option>
+      <option value="security">Security</option>
+      <option value="gadgets">Gadgets</option>
+    </select>
+  </div>
 </header>
 
-<main id="movies">
+<main id="newsList">
 
-  <div class="movie" data-genre="action">
-    <div class="poster">Poster</div>
-    <div class="info">
-      <div class="title">Edge of Tomorrow 2</div>
-      <div class="meta">Action • 2026</div>
-      <div class="rating">⭐ 8.1 / 10</div>
-      <button onclick="trailer('Edge of Tomorrow 2')">Watch Trailer</button>
+  <div class="news" data-category="ai">
+    <div class="tag">AI</div>
+    <div class="title">OpenAI Introduces New Multimodal Model for Enterprise</div>
+    <div class="excerpt">
+      The new model improves reasoning, vision, and automation workflows for businesses.
+    </div>
+    <div class="meta">
+      <span>TechCrunch • 2h ago</span>
+      <a href="#">Read more →</a>
     </div>
   </div>
 
-  <div class="movie" data-genre="scifi">
-    <div class="poster">Poster</div>
-    <div class="info">
-      <div class="title">Dune: Messiah</div>
-      <div class="meta">Sci-Fi • 2026</div>
-      <div class="rating">⭐ 8.7 / 10</div>
-      <button onclick="trailer('Dune Messiah')">W
+  <div class="news" data-category="cloud">
+    <div class="tag">Cloud</div>
+    <div class="title">Microsoft Expands Azure Data Services in Middle East</div>
+    <div class="excerpt">
+      New regions promise lower latency and improved compliance for enterprise customers.
+    </div>
+    <div class="meta">
+      <span>The Verge • 5h ago</span>
+      <a href="#">Read more →</a>
+    </div>
+  </div>
+
+  <div class="news" data-category="security">
+    <div class="tag">Security</div>
+    <div class="title">Critical Zero-Day Vulnerability Found in Popular VPN Software</div>
+    <div class="excerpt">
+      Security researchers urge immediate patching as exploits are already active.
+    </div>
+    <div class="meta">
+      <span>BleepingComputer • 8h ago</span>
+      <a href="#">Read more →</a>
+    </div>
+  </div>
+
+  <div class="news" data-category="gadgets">
+    <div class="tag">Gadgets</div>
+    <div class="title">Apple Unveils Next-Gen AR Headset With Neural Interface</div>
+    <div class="excerpt">
+      The device focuses on productivity, spatial computing, and immersive collaboration.
+    </div>
+    <div class="meta">
+      <span>Wired • 1d ago</span>
+      <a href="#">Read more →</a>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function filterNews() {
+    const search = document.getElementById("search").value.toLowerCase();
+    const category = document.getElementById("category").value;
+    const newsItems = document.querySelectorAll(".news");
+
+    newsItems.forEach(item => {
+      const matchesCategory =
+        category === "all" || item.dataset.category === category;
+
+      const matchesSearch =
+        item.innerText.toLowerCase().includes(search);
+
+      item.style.display =
+        matchesCategory && matchesSearch ? "block" : "none";
+    });
+  }
+</script>
+
+</body>
+</html>
